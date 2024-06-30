@@ -22,7 +22,6 @@ public class RewardItem
    public string item;
    public string color;
 }
-
 public class DataLoader : MonoBehaviour
 {
    private List<RewardItem> rewardList;
@@ -38,6 +37,9 @@ public class DataLoader : MonoBehaviour
    // Rewards
    private string rewardTextValue = "";
    private RewardItem selectedReward; // Сохранение выбранной награды
+
+   // Mana Manager
+   private ManaManager manaManager;
 
    // UI
    public Button spinButton;
@@ -56,11 +58,17 @@ public class DataLoader : MonoBehaviour
        Init();
    }
 
+   private void Update()
+   {
+       manaManager.UpdateManaUI();
+   }
+
    private void Init()
    {
        ResetUI();
        LoadData();
        InitializeItemSpriteMap();
+       manaManager = GetComponent<ManaManager>(); 
        if (jsonData != null)
        {
            rewardList = jsonData.rewards;
@@ -115,7 +123,7 @@ public class DataLoader : MonoBehaviour
        while (n > 1)
        {
            n--;
-           int k = Random.Range(0, n + 1);
+           int k = UnityEngine.Random.Range(0, n + 1);
            T value = shuffledList[k];
            shuffledList[k] = shuffledList[n];
            shuffledList[n] = value;
@@ -125,37 +133,45 @@ public class DataLoader : MonoBehaviour
 
    public void Spin()
    {
-       spinButton.interactable = false;
-       float randomProbability = Random.Range(0.01f, 1);
-       float cumulativeProbability = 0;
-
-       selectedReward = null; // Сброс выбранной награды
-       foreach (RewardItem reward in rewardList)
+       if (manaManager.CurrentMana > 0)
        {
-           cumulativeProbability += reward.probability;
-           if (randomProbability <= cumulativeProbability)
-           {
-               selectedReward = reward;
-               break;
-           }
-       }
+           manaManager.UseMana(); 
+           spinButton.interactable = false;
+           float randomProbability = UnityEngine.Random.Range(0.01f, 1f);
+           float cumulativeProbability = 0;
 
-       if (selectedReward != null)
-       {
-           rewardTextValue = selectedReward.multiplier > 0 ? selectedReward.multiplier.ToString() : selectedReward.item;
-           foreach (WheelDivision division in wheelDivisions)
+           selectedReward = null; 
+           foreach (RewardItem reward in rewardList)
            {
-               if (Mathf.Approximately(division.probability, selectedReward.probability))
+               cumulativeProbability += reward.probability;
+               if (randomProbability <= cumulativeProbability)
                {
-                   int randomRotationCycles = Random.Range(2, 4);
-                   targetAngle = (randomRotationCycles * 360) + (Array.IndexOf(wheelDivisions, division) * (360 / wheelDivisions.Length)) - initialOffset;
-                   if (!isRotating)
-                   {
-                       StartCoroutine(SpinToTargetAngle());
-                   }
+                   selectedReward = reward;
                    break;
                }
            }
+
+           if (selectedReward != null)
+           {
+               rewardTextValue = selectedReward.multiplier > 0 ? selectedReward.multiplier.ToString() : selectedReward.item;
+               for (int i = 0; i < wheelDivisions.Length; i++)
+               {
+                   if (Mathf.Approximately(wheelDivisions[i].probability, selectedReward.probability))
+                   {
+                       int randomRotationCycles = UnityEngine.Random.Range(2, 4);
+                       targetAngle = (randomRotationCycles * 360) + (i * (360 / wheelDivisions.Length)) - initialOffset;
+                       if (!isRotating)
+                       {
+                           StartCoroutine(SpinToTargetAngle());
+                       }
+                       break;
+                   }
+               }
+           }
+       }
+       else
+       {
+           Debug.Log("Not enough mana to spin the wheel!");
        }
    }
 
@@ -187,4 +203,3 @@ public class DataLoader : MonoBehaviour
        PopulateWheelData();
    }
 }
-
