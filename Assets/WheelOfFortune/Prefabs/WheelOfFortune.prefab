@@ -94,7 +94,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7186105122426413635}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -104,7 +104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -222, y: -156.7}
+  m_AnchoredPosition: {x: -641, y: -156.70013}
   m_SizeDelta: {x: 160.7, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7186105122426413639
@@ -387,7 +387,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -121.1, y: -34.5}
+  m_AnchoredPosition: {x: 32, y: 217}
   m_SizeDelta: {x: 389.5, y: 393.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7186105122911379170
@@ -431,8 +431,8 @@ RectTransform:
   m_Children:
   - {fileID: 7186105123873644229}
   - {fileID: 7186105122843767490}
-  - {fileID: 7186105122426413634}
   - {fileID: 7186105122911379171}
+  - {fileID: 7186105122426413634}
   - {fileID: 7186105123609830451}
   - {fileID: 7186105124332035559}
   m_Father: {fileID: 7186105123668545157}
@@ -541,7 +541,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -227.8, y: -95.5}
+  m_AnchoredPosition: {x: -227.8, y: 542}
   m_SizeDelta: {x: 235, y: 62.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7186105123609830449
@@ -628,21 +628,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 555df8130b882c44a9038545f9108e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wheelDivisions:
-  - {fileID: 7186105124320911804}
-  - {fileID: 7186105123366231347}
-  - {fileID: 7186105123343235119}
-  - {fileID: 7186105124130226659}
-  - {fileID: 7186105123727722702}
-  - {fileID: 7186105123256555234}
-  - {fileID: 7186105123117695159}
-  - {fileID: 7186105122820257163}
-  spinningWheel: {fileID: 7186105124282106293}
-  wheelSpinTime: 3
-  spinButton: {fileID: 7186105122426413633}
-  rewardText: {fileID: 7186105123857550162}
-  coinLogo: {fileID: 7186105122481467890}
-  itemSprites: []
 --- !u!1 &7186105123674973221
 GameObject:
   m_ObjectHideFlags: 0
