@@ -4,18 +4,18 @@ using UnityEngine.UI;
 
 public class ManaManager : MonoBehaviour
 {
+    private const int manaMove = 1;
+    
+    [SerializeField] private TextMeshProUGUI manaText;
+    [SerializeField] private Slider manaProgressBar;
+    
+    private float manaRegenTimer = 0f;
+    private bool isRegeneratingMana = false;
+
     public int MaxMana { get; private set; } = 10;
     public int CurrentMana { get; private set; }
     public float ManaRegenTime { get; private set; } = 60f;
-
-    private float manaRegenTimer = 0f;
-    private int manaMove = 1;
-    private bool isRegeneratingMana = false;
-
-    // UI
-    public TextMeshProUGUI manaText;
-    public Slider manaProgressBar;
-
+    
     private void Start()
     {
         ResetMana();

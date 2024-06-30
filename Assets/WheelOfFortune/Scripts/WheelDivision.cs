@@ -2,12 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
 public class WheelDivision : MonoBehaviour
 {
-    public TextMeshProUGUI multiplierText;
-    public Image divisionImage;
-    public Image itemImage;
+    [SerializeField] private TextMeshProUGUI multiplierText;
+    [SerializeField] private Image divisionImage;
+    [SerializeField] private Image itemImage;
     public float probability;
 
     public void SetupDivision(RewardItem reward, Sprite itemSprite)
@@ -28,6 +27,6 @@ public class WheelDivision : MonoBehaviour
         {
             itemImage.sprite = itemSprite;
         }
-        probability = reward.probability; // Установка вероятности для сравнения
+        probability = reward.probability; 
     }
 }

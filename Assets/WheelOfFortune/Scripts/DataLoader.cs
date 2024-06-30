@@ -3,56 +3,39 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using TMPro;
-using System;
-using Random = UnityEngine.Random;
 
-[System.Serializable]
-public class RewardData
-{
-   public int coins;
-   public List<RewardItem> rewards;
-}
-
-[System.Serializable]
-public class RewardItem
-{
-   public int multiplier;
-   public float probability;
-   public string item;
-   public string color;
-}
 public class DataLoader : MonoBehaviour
-{
+{ 
+    private const float initialOffset = 45f;
+    [SerializeField] private WheelDivision[] wheelDivisions; 
+    [SerializeField] private GameObject spinningWheel;
+    [SerializeField] private float wheelSpinTime = 2f;
+    
    private List<RewardItem> rewardList;
    private List<RewardItem> shuffledList;
-   public WheelDivision[] wheelDivisions;
-   public GameObject spinningWheel;
-   public float wheelSpinTime = 2f;
    private float elapsedTime = 0f;
    private bool isRotating = false;
    private float targetAngle;
-   private const float initialOffset = 45f;
 
    // Rewards
    private string rewardTextValue = "";
-   private RewardItem selectedReward; // Сохранение выбранной награды
+   private RewardItem selectedReward;
 
    // Mana Manager
    private ManaManager manaManager;
 
+   // Reward Display Manager
+   private RewardDisplay rewardDisplayManager;
+
    // UI
-   public Button spinButton;
-   public TextMeshProUGUI rewardText;
-   public Image coinLogo;
+   [SerializeField] private Button spinButton;
+   [SerializeField] private List<Sprite> itemSprites;
+   private Dictionary<string, Sprite> itemSpriteDictionary;
 
    // Data
    private TextAsset dataFile;
    private RewardData jsonData;
-  
-   public List<Sprite> itemSprites;
-   private Dictionary<string, Sprite> itemSpriteDictionary;
-
+   
    private void Start()
    {
        Init();
@@ -60,7 +43,7 @@ public class DataLoader : MonoBehaviour
 
    private void Update()
    {
-       manaManager.UpdateManaUI();
+       manaManager.UpdateManaUI(); 
    }
 
    private void Init()
@@ -69,6 +52,7 @@ public class DataLoader : MonoBehaviour
        LoadData();
        InitializeItemSpriteMap();
        manaManager = GetComponent<ManaManager>(); 
+       rewardDisplayManager = GetComponent<RewardDisplay>(); 
        if (jsonData != null)
        {
            rewardList = jsonData.rewards;
@@ -78,8 +62,6 @@ public class DataLoader : MonoBehaviour
 
    private void ResetUI()
    {
-       rewardText.text = "";
-       coinLogo.sprite = null;
        spinButton.interactable = true;
    }
 
@@ -123,7 +105,7 @@ public class DataLoader : MonoBehaviour
        while (n > 1)
        {
            n--;
-           int k = UnityEngine.Random.Range(0, n + 1);
+           int k = Random.Range(0, n + 1);
            T value = shuffledList[k];
            shuffledList[k] = shuffledList[n];
            shuffledList[n] = value;
@@ -135,9 +117,9 @@ public class DataLoader : MonoBehaviour
    {
        if (manaManager.CurrentMana > 0)
        {
-           manaManager.UseMana(); 
+           manaManager.UseMana();
            spinButton.interactable = false;
-           float randomProbability = UnityEngine.Random.Range(0.01f, 1f);
+           float randomProbability = Random.Range(0.01f, 1f);
            float cumulativeProbability = 0;
 
            selectedReward = null; 
@@ -158,7 +140,7 @@ public class DataLoader : MonoBehaviour
                {
                    if (Mathf.Approximately(wheelDivisions[i].probability, selectedReward.probability))
                    {
-                       int randomRotationCycles = UnityEngine.Random.Range(2, 4);
+                       int randomRotationCycles = Random.Range(2, 4);
                        targetAngle = (randomRotationCycles * 360) + (i * (360 / wheelDivisions.Length)) - initialOffset;
                        if (!isRotating)
                        {
@@ -191,15 +173,6 @@ public class DataLoader : MonoBehaviour
        spinningWheel.transform.eulerAngles = new Vector3(0, 0, targetAngle);
        isRotating = false;
        elapsedTime = 0f;
-       StartCoroutine(ShowRewards());
-   }
-
-   private IEnumerator ShowRewards()
-   {
-       rewardText.text = rewardTextValue;
-       coinLogo.sprite = itemSpriteDictionary[selectedReward.item];
-       yield return new WaitForSeconds(4f);
-       ResetUI();
-       PopulateWheelData();
+       rewardDisplayManager.DisplayReward(rewardTextValue, itemSpriteDictionary[selectedReward.item]);
    }
 }
