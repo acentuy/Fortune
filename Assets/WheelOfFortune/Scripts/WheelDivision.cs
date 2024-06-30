@@ -27,6 +27,6 @@ public class WheelDivision : MonoBehaviour
         {
             itemImage.sprite = itemSprite;
         }
-        probability = reward.probability; 
+        probability = reward.probability;
     }
 }

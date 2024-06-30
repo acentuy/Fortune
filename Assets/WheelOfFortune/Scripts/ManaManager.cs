@@ -5,17 +5,17 @@ using UnityEngine.UI;
 public class ManaManager : MonoBehaviour
 {
     private const int manaMove = 1;
-    
+
     [SerializeField] private TextMeshProUGUI manaText;
     [SerializeField] private Slider manaProgressBar;
-    
+
     private float manaRegenTimer = 0f;
     private bool isRegeneratingMana = false;
 
     public int MaxMana { get; private set; } = 10;
     public int CurrentMana { get; private set; }
     public float ManaRegenTime { get; private set; } = 60f;
-    
+
     private void Start()
     {
         ResetMana();
@@ -52,9 +52,11 @@ public class ManaManager : MonoBehaviour
                 CurrentMana++;
                 UpdateManaUI();
             }
+
             manaRegenTimer = 0f;
         }
-        UpdateManaProgressBar(); 
+
+        UpdateManaProgressBar();
     }
 
     public void StartManaRegeneration()

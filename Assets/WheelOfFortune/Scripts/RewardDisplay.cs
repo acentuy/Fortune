@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class RewardDisplay : MonoBehaviour
 {
-    private const float displayTime = 2f; 
-    
+    private const float displayTime = 2f;
+
     [SerializeField] private TextMeshProUGUI rewardText;
     [SerializeField] private Image coinLogo;
     [SerializeField] private Button spinButton;
@@ -29,6 +29,6 @@ public class RewardDisplay : MonoBehaviour
     {
         rewardText.text = "";
         coinLogo.gameObject.SetActive(false);
-        spinButton.interactable = true; 
+        spinButton.interactable = true;
     }
 }

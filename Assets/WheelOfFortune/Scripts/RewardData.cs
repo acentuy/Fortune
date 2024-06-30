@@ -1,10 +1,7 @@
 using System.Collections.Generic;
-using UnityEngine;
-
 [System.Serializable]
 public class RewardData
 {
-    public int coins;
     public List<RewardItem> rewards;
 }
 
